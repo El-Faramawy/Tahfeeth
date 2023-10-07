@@ -11,6 +11,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::group(['middleware' => 'all_guards:user_api'], function () {
         Route::get('profile', 'AuthController@profile');
         Route::post('update_profile', 'AuthController@update_profile');
+        Route::post('update_image', 'AuthController@update_image');
         Route::post('ask_for_coupon', 'AuthController@ask_for_coupon');
         Route::post('logout', 'AuthController@logout');
         Route::post('deleteAccount', 'AuthController@deleteAccount');

@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function profile(Request $request){
         $user = User::where('id',user_api()->user()->id)->first();
 //        $user->token = getToken();
-        return apiResponse(['user'=>$user,'token'=>getToken()]);
+        return apiResponse(['user'=>$user/*,'token'=>getToken()*/]);
     }
     //===========================================
     public function update_profile(Request $request){
@@ -39,22 +39,28 @@ class AuthController extends Controller
             'email.unique' => 'البريد الالكترونى موجود مسبقا'
         ]);
         if ($validator->fails()){
-            return apiResponse(null,$validator->errors(),'422');
+            return apiResponse(null,$validator->errors()->first(),'422');
         }
         $data = $request->all();
         if ($request->password && $request->password != null){
             $data['password'] = Hash::make($request->password);
         }
         $user = User::where('id',user_api()->user()->id)->first();
-        if ($request->image && $request->image != null){
-            $data['image'] = $this->saveImage($request->image , 'Uploads/User',$user->image);
-        }
         $user->update($data);
 
 //        $user->token = $user->token;
 
-        return apiResponse(['user'=>$user,'token'=>$user->token]);
+        return apiResponse(['user'=>$user/*,'token'=>$user->token*/]);
 
+    }
+    //===========================================
+    public function update_image(Request $request){
+        $user = User::where('id',user_api()->user()->id)->first();
+        if ($request->image && $request->image != null){
+            $data['image'] = $this->saveImage($request->image , 'Uploads/User',$user->image);
+        }
+        $user->update($data);
+        return apiResponse(['user'=>$user/*,'token'=>$user->token*/]);
     }
     //=======================================================================================================
     public function logout(Request $request){

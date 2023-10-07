@@ -15,49 +15,42 @@ class AuthController extends Controller
     use PhotoTrait;
 
     public function user_login($data){
-//        $credentials = ['user_name'=>$data['user_name'] , 'password'=>$data['password']];
         $token = user_api()->attempt($data);
         if ($token){
             $user = user_api()->user();
-//            $user->token = $token;
             return apiResponse(['user'=>$user,'token'=>$token]);
         }else{
-            return apiResponse(null,'خطأ فى الاسم او كلمة المرور . ','409');
+            return apiResponse(null,'خطأ فى كلمة المرور . ','422');
         }
     }
 
     public function teacher_login($data){
-//        $credentials = ['user_name'=>$data['user_name'] , 'password'=>$data['password']];
         $token = teacher_api()->attempt($data);
         if ($token){
             $user = teacher_api()->user();
-//            $user->token = $token;
             return apiResponse(['user'=>$user,'token'=>$token]);
         }else{
-            return apiResponse(null,'خطأ فى الاسم او كلمة المرور . ','409');
+            return apiResponse(null,'خطأ فى كلمة المرور . ','422');
         }
     }
 
     public function admin_login($data){
-//        $credentials = ['email'=>$data['user_name'] , 'password'=>$data['password']];
         $token = admin_api()->attempt($data);
         if ($token){
             $user = admin_api()->user();
-//            $user->token = $token;
             return apiResponse(['user'=>$user,'token'=>$token]);
         }else{
-            return apiResponse(null,'خطأ فى الاسم او كلمة المرور . ','409');
+            return apiResponse(null,'خطأ فى كلمة المرور . ','422');
         }
     }
 
     public function login(Request $request){
         try {
-            // validation
             $validator = Validator::make($request->all(),[
                 'username'=>'required',
                 'password'=>'required',
             ],[
-                'username.required' => 'اسم المستخدم مطلوب',
+                'username.required' => 'اسم المستخدم او رقم الهاتف مطلوب',
                 'password.required' => 'كلمة المرور مطلوبة'
             ]);
             if ($validator->fails()){
@@ -65,19 +58,21 @@ class AuthController extends Controller
             }
 
             $data = $request->only('username','password');
-            $user = User::where('username',$request->username)->first();
 
-            if ($user){
-                if ($user->role == 'user'){
-                    return $this->user_login($data);
-                }elseif ($user->role == 'teacher'){
-                    return $this->teacher_login($data);
-                }elseif ($user->role == 'admin'){
-                    return $this->admin_login($data);
-                }
+            $user = User::where('username',$request->username)->first();
+            if (! $user){
+                $user = User::where('phone',$request->username)->first();
+                $data = ['phone'=>$request->username , 'password'=>$request->password];
             }
-            else{
-                return apiResponse(null,'خطأ فى الاسم او كلمة المرور . ','409');
+            if (! $user){
+                return apiResponse(null,'رقم الهاتف او اسم المستخدم غير صحيح','422');
+            }
+            if ($user->role == 'user'){
+                return $this->user_login($data);
+            }elseif ($user->role == 'teacher'){
+                return $this->teacher_login($data);
+            }elseif ($user->role == 'admin'){
+                return $this->admin_login($data);
             }
 
         }catch (\Exception $ex){
