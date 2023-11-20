@@ -27,11 +27,11 @@ class AuthController extends Controller
             'email'=>'required|unique:users,email,'.user_api()->user()->id,
             'phone'=>'required|unique:users,phone,'.user_api()->user()->id,
             'phone_code'=>'required',
-            'name'=>'required'
+//            'name'=>'required'
         ],[
             'username.required' => 'اسم المستخدم مطلوب',
             'username.unique' => 'اسم المستخدم موجود مسبقا',
-            'name.required' => 'الاسم مطلوب',
+//            'name.required' => 'الاسم مطلوب',
             'phone_code.required' => 'كود الهاتف مطلوب',
             'phone.required' => 'رقم الهاتف مطلوب',
             'phone.unique' => 'رقم الهاتف موجود مسبقا',
@@ -56,6 +56,7 @@ class AuthController extends Controller
     //===========================================
     public function update_image(Request $request){
         $user = User::where('id',user_api()->user()->id)->first();
+        $data = [];
         if ($request->image && $request->image != null){
             $data['image'] = $this->saveImage($request->image , 'Uploads/User',$user->image);
         }
@@ -85,4 +86,15 @@ class AuthController extends Controller
     }
     //=======================================================================================================
 
+    public function delete_image(Request $request)
+    {
+        $user = user_api()->user();
+        $user->update(['image'=>null]);
+
+        if (file_exists($user->image))
+            unlink($user->image);
+
+        return apiResponse($user);
+
+    }
 }

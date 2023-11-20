@@ -12,9 +12,14 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('profile', 'AuthController@profile');
         Route::post('update_profile', 'AuthController@update_profile');
         Route::post('update_image', 'AuthController@update_image');
-        Route::post('ask_for_coupon', 'AuthController@ask_for_coupon');
+        Route::post('delete_image', 'AuthController@delete_image');
         Route::post('logout', 'AuthController@logout');
         Route::post('deleteAccount', 'AuthController@deleteAccount');
+
+        /* ---------------------- track -------------------*/
+        Route::post('change_track','TrackController@change_track');
+        Route::get('questions','TrackController@questions');
+        Route::post('store_records','TrackController@store_records');
 
         /* ---------------------- home -------------------*/
         Route::get('home','HomeController@index');
@@ -42,8 +47,6 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('notifications', 'NotificationController@notifications');
         Route::get('getNotificationsCount', 'NotificationController@getNotificationsCount');
 
-        /* ---------------------- contact -------------------*/
-        Route::post('contact_us','ContactController@contact_us');
 
         /* ---------------------- orders -------------------*/
         Route::get('coupon', 'OrderController@coupon');

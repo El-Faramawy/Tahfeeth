@@ -1,6 +1,18 @@
 <?php
 
-
+if (!function_exists('setting')) {
+    function setting()
+    {
+        return \App\Models\Setting::first();
+    }
+}
+// ============================================================
+if (!function_exists('admin')) {
+    function admin()
+    {
+        return auth()->guard('admin');
+    }
+}
 // ============================================================
 if (!function_exists('user_api')) {
     function user_api()
@@ -31,6 +43,17 @@ if (!function_exists('get_file')) {
             return asset($file);
         else
             return asset('Admin/imgs/default.jpg');
+
+    }
+}
+// ============================================================
+if (!function_exists('get_user_file')) {
+    function get_user_file($file)
+    {
+        if (!is_null($file))
+            return asset($file);
+        else
+            return '';
 
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements JWTSubject
 {
     protected $hidden = ['password'];
-    protected $appends = ['age'];
+    protected $appends = ['age','has_test'];
 
     public function getJWTIdentifier()
     {
@@ -26,6 +26,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getImageAttribute()
     {
+        return get_user_file($this->attributes['image']);
+    }
+    public function getDashboardImageAttribute()
+    {
         return get_file($this->attributes['image']);
     }
 
@@ -33,6 +37,15 @@ class User extends Authenticatable implements JWTSubject
     {
         $dateDiff = strtotime(date('Y-m-d')) - strtotime(date('Y-m-d', strtotime($this->attributes['birth_date'])));
         return floor($dateDiff / 31556926);
+    }
+
+    public function tests(){
+        return $this->hasMany(Test::class);
+    }
+
+    public function getHasTestAttribute(){
+        $test_count = $this->tests()->count();
+        return $test_count > 0;
     }
 
 

@@ -24,6 +24,10 @@ Route::post('login','AuthController@login');
 Route::post('register','AuthController@register');
 Route::post('delete_users','DeleteUsersController@delete_users');
 
+Route::get('setting','SettingController@setting');
+Route::post('contact_us','ContactController@contact_us');
+Route::get('faqs','FaqController@faqs');
+
 Route::group(['middleware'=>'all_guards'],function(){
 
     /* ---------------------- orders -------------------*/

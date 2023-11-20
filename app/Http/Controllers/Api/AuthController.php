@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -121,6 +122,9 @@ class AuthController extends Controller
                 $token = user_api()->login($user); // generate token
             }
 
+            $setting = Setting::first();
+            $setting->group_number += 1;
+            $setting->save();
 //            $user->token = $token;
             return apiResponse(['user'=>$user,'token'=>$token]);
         }catch (\Exception $ex){
