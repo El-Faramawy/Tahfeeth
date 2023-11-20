@@ -28,6 +28,7 @@
                                 <th class="text-white">البريد الالكترونى</th>
                                 <th class="text-white">عنوان الرسالة</th>
                                 <th class="text-white">الرسالة</th>
+                                <th class="text-white">رقم الهاتف</th>
                                 <th class="text-white">النوع</th>
 {{--                                <th class="text-white">رد</th>--}}
                                 <th class="text-white">حذف</th>
@@ -98,7 +99,8 @@
             {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'mail', name: 'mail'},
+            {data: 'email', name: 'email'},
+            {data: 'phone', name: 'phone'},
             {data: 'subject', name: 'subject'},
             {data: 'message', name: 'message'},
             {data: 'type', name: 'type'},
