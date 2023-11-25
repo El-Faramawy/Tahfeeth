@@ -30,12 +30,40 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
+                                <label>بداية التسجيل</label>
+                                <div class="wd-150 mg-b-30">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div><!-- input-group-prepend -->
+                                        <input class="form-control " name="start_date" value="{{$setting->start_date}}"
+                                               placeholder="بداية التسجيل ... " type="date" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label> نهاية التسجيل</label>
+                                <div class="wd-150 mg-b-30">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div><!-- input-group-prepend -->
+                                        <input class="form-control " name="end_date" value="{{$setting->end_date}}"
+                                               placeholder="نهاية التسجيل ... " type="date" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
                                 <label>عدد الطلاب المتاح</label>
                                 <div class="wd-150 mg-b-30">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                                <i class="fa fa-phone tx-16 lh-0 op-6"></i>
+                                                <i class="fa fa-user tx-16 lh-0 op-6"></i>
                                             </div>
                                         </div><!-- input-group-prepend -->
                                         <input class="form-control numbersOnly" name="group_limit" value="{{$setting->group_limit}}"
@@ -49,7 +77,7 @@
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                                <i class="fa fa-phone tx-16 lh-0 op-6"></i>
+                                                <i class="fa fa-user tx-16 lh-0 op-6"></i>
                                             </div>
                                         </div><!-- input-group-prepend -->
                                         <input class="form-control numbersOnly" name="group_number" value="{{$setting->group_number}}"

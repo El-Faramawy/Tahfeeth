@@ -34,6 +34,11 @@ class ContactController extends Controller
 ////                    }
 //
 //                })
+                ->editColumn('type' , function ($contact){
+                    if ($contact->type == 'complaint') return 'شكوى';
+                    elseif ($contact->type == 'question') return 'سؤال';
+                    else return 'اقتراح';
+                })
                 ->addColumn('checkbox' , function ($contact){
                     return '<input type="checkbox" class="sub_chk" data-id="'.$contact->id.'">';
                 })

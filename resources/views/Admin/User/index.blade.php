@@ -35,6 +35,7 @@
                                 <th class="text-white">رقم الهوية</th>
                                 <th class="text-white">الجنس</th>
                                 <th class="text-white">المسار</th>
+                                <th class="text-white">المجموعة</th>
                                 <th class="text-white">المرحلة</th>
                                 <th class="text-white"> الحالة</th>
                                 <th class="text-white">تحكم</th>
@@ -94,6 +95,7 @@
             {data: 'identification', name: 'identification'},
             {data: 'gender', name: 'gender'},
             {data: 'track', name: 'track'},
+            {data: 'group', name: 'group'},
             {data: 'stage', name: 'stage'},
             // {data: 'orders', name: 'orders'},
             {data: 'status', name: 'status'},

@@ -18,8 +18,11 @@ class AuthController extends Controller
     public function user_login($data){
         $token = user_api()->attempt($data);
         if ($token){
-            $user = user_api()->user();
-            return apiResponse(['user'=>$user,'token'=>$token]);
+            if (user_api()->user()->status == 'active'){
+                $user = user_api()->user();
+                return apiResponse(['user'=>$user,'token'=>$token]);
+            }
+            return apiResponse(null,'نأسف لا يمكنك الدخول الا بعد موافقة الادارة . ','422');
         }else{
             return apiResponse(null,'خطأ فى كلمة المرور . ','422');
         }

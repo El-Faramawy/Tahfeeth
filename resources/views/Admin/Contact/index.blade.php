@@ -26,9 +26,9 @@
                                 <th class="text-white">#</th>
                                 <th class="text-white">اسم العميل</th>
                                 <th class="text-white">البريد الالكترونى</th>
+                                <th class="text-white">رقم الهاتف</th>
                                 <th class="text-white">عنوان الرسالة</th>
                                 <th class="text-white">الرسالة</th>
-                                <th class="text-white">رقم الهاتف</th>
                                 <th class="text-white">النوع</th>
 {{--                                <th class="text-white">رد</th>--}}
                                 <th class="text-white">حذف</th>

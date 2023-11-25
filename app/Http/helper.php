@@ -63,7 +63,13 @@ if (!function_exists('apiResponse')) {
         return response()->json(['data'=>$data,'message'=>$message,'code'=>intval($code)],$status);
     }
 }
-
+//===================  toaster ===========================
+if (!function_exists('my_toaster')) {
+    function my_toaster($message = 'تم بنجاح',$alert_type = 'success') {
+        session()->flash('message', $message);
+        session()->flash('type', $alert_type);
+    }
+}
 //===================  getToken ===========================
 if (!function_exists('getToken')) {
     function getToken() {

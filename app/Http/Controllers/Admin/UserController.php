@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -16,7 +17,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $users =User::where('role','user')->latest()->get();
+            $users =User::where('role','user');
+            if (isset($request->group_id)){
+                $users->where('group_id',$request->group_id);
+            }
+            $users->latest()->get();
 
             return Datatables::of($users)
                 ->addColumn('action', function ($user) {
@@ -47,18 +52,20 @@ class UserController extends Controller
                 ->editColumn('track',function ($user){
                     $records = Test::where('user_id',$user->id)->count();
                     $recordBtn = '';
-                    if ($records){
-                        $recordBtn = '<br><span data-id="'.$user->id.'" href="'.route("user_records" , $user->id).'"
-                        class="badge badge-warning badge-sm d-block recordsBtn" style="cursor: pointer" > مقاطع الصوت </span>';
+                    if ($records > 0){
+                        $recordBtn = '<span data-id="'.$user->id.'" href="'.route("user_records" , $user->id).'"
+                        class="badge badge-warning badge-sm mt-1 d-block recordsBtn" style="cursor: pointer" > مقاطع الصوت </span>';
                     }
                     $beginner_selected = $user->track == "beginner" ? "selected" : " " ;
                     $mid_level_selected = $user->track == "mid_level" ? "selected" : " " ;
                     $high_level_selected = $user->track == "high_level" ? "selected" : " " ;
                     $input = '<select name="change_track" data-column="track" href="'.url("admin/change_track").'"
                     data-id="'.$user->id.'" style="min-width: 110px;" class="form-control change_track">
+                        <option value="" selected disabled>اختر مسار ...</option>
                         <option value="beginner" '. $beginner_selected .'>التاهيلى</option>
                         <option value="mid_level" '. $mid_level_selected .'>الحافظ الجديد</option>
-                        <option value="high_level" '. $high_level_selected .'>الخاتمين</option>'
+                        <option value="high_level" '. $high_level_selected .'>الخاتمين</option>
+                        </select>'
                     ;
                     return $input . $recordBtn;
                 })
@@ -74,6 +81,19 @@ class UserController extends Controller
                         <option value="isnad" '. $isnad_selected .'>الاسناد</option>
                         <option value="dabt" '. $dabt_selected .'>الضبط</option>'
                     ;
+                })
+                ->editColumn('group',function ($user){
+                    $output = '';
+                    $output .= '<select name="change_track" data-column="group_id" href="'.url("admin/change_track").'"
+                    data-id="'.$user->id.'" style="min-width: 150px;" class="form-control change_track">
+                    <option value="" selected disabled> اختر مجموعة ...</option>';
+                    $groups = Group::all();
+                    foreach ($groups as $group){
+                        $selected = $group->id == $user->group_id ? "selected" :"";
+                        $output .= '<option value="'.$group->id.'" '. $selected .'>'.$group->name.'</option>';
+                    }
+                    $output .='</selected>';
+                    return $output ;
                 })
                 ->editColumn('status',function ($user){
 //                    $block =in_array(10,admin()->user()->permission_ids)? "block" : " ";
@@ -138,11 +158,27 @@ class UserController extends Controller
                 'message' => $text
             ]);
     }
+    ################ change_user_track #################
+    public function change_user_track(Request $request)
+    {
+        $user = User::where('id',$request->id)->first();
+        $user->update(['track'=>$request->track]);
+
+        return response()->json(
+            [
+                'success' => 'true',
+                'message' => 'تم بنجاح'
+            ]);
+    }
     ################ change_track #################
     public function change_track(Request $request)
     {
         $user = User::where('id',$request->id)->first();
         $user->update([$request->column=>$request->value]);
+
+        if ($request->column == 'stage' && $request->value != 'dabt'){
+            $user->update(['track'=>null]);
+        }
 
         return response()->json(
             [

@@ -53,6 +53,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('faqs','FaqController');
         Route::post('multi_delete_faqs','FaqController@multiDelete')->name('faqs.multiDelete');
 
+        ################################### groups ##########################################
+        Route::resource('groups','GroupController');
+        Route::post('multi_delete_groups','GroupController@multiDelete')->name('groups.multiDelete');
+
         ################################### sub_categories ##########################################
         Route::resource('sub_categories','SubCategoryController');
         Route::post('multi_delete_sub_categories','SubCategoryController@multiDelete')->name('sub_categories.multiDelete');
