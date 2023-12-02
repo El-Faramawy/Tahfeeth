@@ -44,17 +44,7 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-        'admin_api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
-            'hash' => false,
-        ],
         'user_api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
-            'hash' => false,
-        ],
-        'teacher_api' => [
             'driver' => 'jwt',
             'provider' => 'users',
             'hash' => false,

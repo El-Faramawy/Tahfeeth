@@ -28,18 +28,8 @@ Route::get('setting','SettingController@setting');
 Route::post('contact_us','ContactController@contact_us');
 Route::get('faqs','FaqController@faqs');
 
-Route::group(['middleware'=>'all_guards'],function(){
 
-    /* ---------------------- orders -------------------*/
-
-});
-
-
-//require __DIR__ . '/Api/delivery_api.php';
-//
  require __DIR__ . '/Api/user_api.php';
-// require __DIR__ . '/Api/admin_api.php';
-// require __DIR__ . '/Api/guest_api.php';
 
 
 

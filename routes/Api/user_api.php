@@ -21,46 +21,6 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('questions','TrackController@questions');
         Route::post('store_records','TrackController@store_records');
 
-        /* ---------------------- home -------------------*/
-        Route::get('home','HomeController@index');
-        Route::get('product_search','HomeController@product_search');
-
-        /* ---------------------- product -------------------*/
-        Route::get('getOneProduct', 'ProductController@getOneProduct');
-        Route::get('changeFavourite', 'ProductController@changeFavourite');
-
-        /* ---------------------- offers -------------------*/
-        Route::get('offers', 'OfferController@index');
-        Route::get('getOneOffer', 'OfferController@getOneOffer');
-
-        /* ---------------------- offers -------------------*/
-        Route::get('changeFavourite', 'FavouriteController@changeFavourite');
-        Route::get('userFavourite', 'FavouriteController@userFavourite');
-
-        /* ---------------------- address -------------------*/
-        Route::get('userAddresses', 'AddressController@index');
-        Route::post('addAddress', 'AddressController@addAddress');
-        Route::post('editAddress', 'AddressController@editAddress');
-        Route::post('deleteAddress', 'AddressController@deleteAddress');
-
-        /* ---------------------- notifications -------------------*/
-        Route::get('notifications', 'NotificationController@notifications');
-        Route::get('getNotificationsCount', 'NotificationController@getNotificationsCount');
-
-
-        /* ---------------------- orders -------------------*/
-        Route::get('coupon', 'OrderController@coupon');
-        Route::get('branches', 'OrderController@branches');
-        Route::get('openOrClosed', 'OrderController@checkOpenOrClosed');
-        Route::post('store_order', 'OrderController@store_order');
-        Route::get('order_details', 'OrderController@order_details');
-        Route::get('current_orders', 'OrderController@current_orders');
-        Route::get('previous_orders', 'OrderController@previous_orders');
-        Route::post('cancel_order', 'OrderController@cancel_order');
 
     });
 });
-
-//// ****************** payment*****************************
-//Route::get('payment','Payment\PaymentController@index')->name('payment')
-//    ->middleware('all_guards:user_api');

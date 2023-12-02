@@ -20,20 +20,6 @@ if (!function_exists('user_api')) {
         return auth()->guard('user_api');
     }
 }
-// ============================================================
-if (!function_exists('teacher_api')) {
-    function teacher_api()
-    {
-        return auth()->guard('teacher_api');
-    }
-}
-// ============================================================
-if (!function_exists('admin_api')) {
-    function admin_api()
-    {
-        return auth()->guard('admin_api');
-    }
-}
 
 // ============================================================
 if (!function_exists('get_file')) {
