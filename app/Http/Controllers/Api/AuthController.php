@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function user_login($data){
         $token = user_api()->attempt($data);
         if ($token){
-            if (user_api()->user()->status == 'active'){
+            if (user_api()->user()->status != 'inactive'){
                 $user = user_api()->user();
                 return apiResponse(['user'=>$user,'token'=>$token]);
             }
