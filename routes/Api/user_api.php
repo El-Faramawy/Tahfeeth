@@ -21,6 +21,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::get('questions','TrackController@questions');
         Route::post('store_records','TrackController@store_records');
 
-
+        Route::post('create_absence', 'AbsenceController@create_absence');
+        Route::post('create_report', 'MainReportController@create_report');
     });
 });
