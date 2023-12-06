@@ -17,6 +17,6 @@ class Absence extends Model
 
     public function teacher(): BelongsTo
     {
-        return $this->BelongsTo(Admin::class);
+        return $this->BelongsTo(Admin::class, 'updated_by');
     }
 }

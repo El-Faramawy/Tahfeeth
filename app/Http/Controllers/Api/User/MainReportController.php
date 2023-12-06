@@ -90,6 +90,7 @@ class MainReportController extends Controller
             $report_id = $request->query('report_id', null);
             $user_id = user_api()->id();
             $sort_by = $request->query('sort_by', 'reported_at');
+            $sort_direction = $request->query('sort_direction', 'desc');
 
             $reports = MainReport::where('student_id', $user_id)
             ->limit($page_size)
@@ -99,7 +100,7 @@ class MainReportController extends Controller
             if ($report_id) {
                 $reports = $reports->where('id', $report_id);
             }
-            $reports = $reports->orderBy($sort_by, 'desc')->get();
+            $reports = $reports->orderBy($sort_by, $sort_direction)->get();
 
             return apiResponse($reports, null, 200);
         } catch (\Exception $ex) {

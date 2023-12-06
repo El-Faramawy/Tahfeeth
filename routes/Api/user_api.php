@@ -22,7 +22,10 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::post('store_records','TrackController@store_records');
 
         Route::post('absences', 'AbsenceController@create_absence');
+        Route::get('absences', 'AbsenceController@list_absences');
+        Route::put('absences/{absence_id}', 'AbsenceController@update_absence');
         Route::post('reports', 'MainReportController@create_report');
         Route::get('reports', 'MainReportController@list_reports');
+        Route::put('reports/{report_id}', 'AbsenceController@update_report');
     });
 });
