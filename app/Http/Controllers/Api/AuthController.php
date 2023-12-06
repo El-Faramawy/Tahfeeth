@@ -71,13 +71,14 @@ class AuthController extends Controller
             if (! $user){
                 return apiResponse(null,'رقم الهاتف او اسم المستخدم غير صحيح','422');
             }
-            if ($user->role == 'user'){
-                return $this->user_login($data);
-            }elseif ($user->role == 'teacher'){
-                return $this->teacher_login($data);
-            }elseif ($user->role == 'admin'){
-                return $this->admin_login($data);
-            }
+            return $this->user_login($data);
+            // TODO: Refactor admin & teacher login
+            // if ($user->role == 'user'){
+            // }elseif ($user->role == 'teacher'){
+            //     return $this->teacher_login($data);
+            // }elseif ($user->role == 'admin'){
+            //     return $this->admin_login($data);
+            // }
 
         }catch (\Exception $ex){
             return apiResponse($ex->getCode(),$ex->getMessage(),'422');
