@@ -36,6 +36,12 @@
                         <span class="side-menu__label">المستخدمين</span>
                     </a>
                 </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{route('teachers.index')}}">
+                        <i class="fe fe-user-check side-menu__icon"></i>
+                        <span class="side-menu__label">المعلمين</span>
+                    </a>
+                </li>
 {{--            @endif--}}
 {{--            @if(in_array(11,admin()->user()->permission_ids))--}}
 {{--                <li class="slide">--}}
@@ -223,6 +229,12 @@
                 <a class="side-menu__item" href="{{route('faqs.index')}}">
                     <i class="fa fa-question side-menu__icon"></i>
                     <span class="side-menu__label">الاسئلة و الاجابات</span>
+                </a>
+            </li>
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('sessions.index')}}">
+                    <i class="fa fa-life-ring side-menu__icon"></i>
+                    <span class="side-menu__label">حلقات التلاوة</span>
                 </a>
             </li>
             <li class="slide">

@@ -7,8 +7,6 @@ use App\Models\Group;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -17,7 +15,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $users =User::where('role','user');
+            $users =User::query();
             if (isset($request->group_id)){
                 $users->where('group_id',$request->group_id);
             }
@@ -82,7 +80,7 @@ class UserController extends Controller
                         <option value="dabt" '. $dabt_selected .'>الضبط</option>'
                     ;
                 })
-                ->editColumn('group',function ($user){
+                ->addColumn('group',function ($user){
                     $output = '';
                     $output .= '<select name="change_track" data-column="group_id" href="'.url("admin/change_track").'"
                     data-id="'.$user->id.'" style="min-width: 150px;" class="form-control change_track">

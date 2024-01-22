@@ -27,5 +27,6 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::post('reports', 'MainReportController@create_report');
         Route::get('reports', 'MainReportController@list_reports');
         Route::put('reports/{report_id}', 'AbsenceController@update_report');
+
     });
 });

@@ -1,20 +1,20 @@
 @extends('layouts.admin.app')
-@section('page_title') المستخدمين @endsection
+@section('page_title') المعلمين @endsection
 <link href="{{url('admin')}}/assets/plugins/select2/select2.min.css" rel="stylesheet"/>
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">المستخدمين</h3>
+                    <h3 class="card-title">المعلمين</h3>
                     <div class="mr-auto pageheader-btn">
-                        @if(in_array(7,admin()->user()->permission_ids))
+{{--                        @if(in_array(7,admin()->user()->permission_ids))--}}
                             <a href="#" id="multiDeleteBtn" class="btn btn-danger btn-icon text-white">
                                             <span>
                                                 <i class="fa fa-trash-o"></i>
                                             </span> حذف المحدد
                             </a>
-                        @endif
+{{--                        @endif--}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -34,9 +34,6 @@
                                 <th class="text-white">الجنسية</th>
                                 <th class="text-white">رقم الهوية</th>
                                 <th class="text-white">الجنس</th>
-                                <th class="text-white">المسار</th>
-                                <th class="text-white">المجموعة</th>
-                                <th class="text-white">المرحلة</th>
                                 <th class="text-white"> الحالة</th>
                                 <th class="text-white">تحكم</th>
                             </tr>
@@ -57,7 +54,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg mw-650px">
             <div class="modal-content" id="modalContent">
                 <div class="modal-header">
-                    <h2>المستخدمين</h2>
+                    <h2>المعلمين</h2>
                     <div class="btn btn-sm btn-icon btn-active-color-primary" style="cursor: pointer"
                          data-dismiss="modal" aria-label="Close">
                         <span class="svg-icon svg-icon-1">
@@ -74,6 +71,15 @@
                 </div>
                 <div class="modal-body scroll-y mx-5 mx-xl-15 my-3" id="form-load">
 
+                </div>
+
+                <div class="modal-footer">
+                    <div class=" ">
+                        <input  form="form" value="حفظ" type="submit" id="submit" class="btn btn-primary " style="width: 100px">
+                    </div>
+                    <div class=" ">
+                        <button class="btn btn-light me-3 close_model" style="width: 100px">غلق</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,45 +100,14 @@
             {data: 'nationality', name: 'nationality'},
             {data: 'identification', name: 'identification'},
             {data: 'gender', name: 'gender'},
-            {data: 'track', name: 'track'},
-            {data: 'group', name: 'group'},
-            {data: 'stage', name: 'stage'},
-            // {data: 'orders', name: 'orders'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];
         //======================== addBtn =============================
 
     </script>
-    @include('layouts.admin.inc.ajax',['url'=>'users'])
-    @include('Admin.User.parts.block',['url'=>'users'])
-    @include('Admin.User.parts.records_js')
-
-    <script>
-        // Make Better Using Ajax
-        $(document).on('change  ', '.change_track', function (event) {
-            var id = $(this).data("id")
-            var column = $(this).data("column")
-            var value = $(this).val()
-            var url = $(this).attr("href")
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    '_token': "{{csrf_token()}}",
-                    'id': id,
-                    'column': column,
-                    'value': value,
-                },
-                success: function (data) {
-                    if (data.success === 'true') {
-                        my_toaster(data.message)
-                        $('#exportexample').DataTable().ajax.reload(null, false);
-                    }
-                }
-            })
-        });
-    </script>
+    @include('layouts.admin.inc.ajax',['url'=>'teachers'])
+    @include('Admin.Teacher.parts.block',['url'=>'teachers'])
 
 
 @endpush

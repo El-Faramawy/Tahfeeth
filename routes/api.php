@@ -26,6 +26,10 @@ Route::get('setting','SettingController@setting');
 Route::post('contact_us','ContactController@contact_us');
 Route::get('faqs','FaqController@faqs');
 
+Route::post('teacher', 'TeacherController@createTeacher');
+
+Route::get('sessions', 'SessionController@sessions');
+
 
  require __DIR__ . '/Api/user_api.php';
 

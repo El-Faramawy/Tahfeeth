@@ -10,8 +10,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('login','AuthController@index')->name('login');
     Route::post('post_login','AuthController@login')->name('post_login');
 
-
-    //******* after login *******
     Route::group(['middleware' => 'admin'], function () {
 
         Route::get('logout','AuthController@logout')->name('logout');
@@ -37,33 +35,22 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('change_track','UserController@change_track')->name('change_track');
         Route::post('multi_delete_users','UserController@multiDelete')->name('users.multiDelete');
 
-        ################################### deliveries ##########################################
-        Route::resource('deliveries','DeliveryController');
-        Route::get('block_delivery/{id}','DeliveryController@block')->name('deliveries.block');
-        Route::post('multi_delete_deliveries','DeliveryController@multiDelete')->name('deliveries.multiDelete');
-        Route::post('change_delivery_points_number','DeliveryController@change_points_number')->name('change_delivery_points_number');
-
-        ################################### markets ##########################################
-        Route::resource('markets','MarketController');
-        Route::get('block_market/{id}','MarketController@block')->name('markets.block');
-        Route::post('multi_delete_markets','MarketController@multiDelete')->name('markets.multiDelete');
-        Route::get('get_market_sub_categories','MarketController@get_market_sub_categories')->name('get_market_sub_categories');
+        ################################### teachers ##########################################
+        Route::resource('teachers','TeacherController');
+        Route::get('block_teacher/{id}','TeacherController@block')->name('teachers.block');
+        Route::post('multi_delete_teachers','TeacherController@multiDelete')->name('teachers.multiDelete');
 
         ################################### faqs ##########################################
         Route::resource('faqs','FaqController');
         Route::post('multi_delete_faqs','FaqController@multiDelete')->name('faqs.multiDelete');
 
+        ################################### sessions ##########################################
+        Route::resource('sessions','SessionController');
+        Route::post('multi_delete_sessions','SessionController@multiDelete')->name('sessions.multiDelete');
+
         ################################### groups ##########################################
         Route::resource('groups','GroupController');
         Route::post('multi_delete_groups','GroupController@multiDelete')->name('groups.multiDelete');
-
-        ################################### sub_categories ##########################################
-        Route::resource('sub_categories','SubCategoryController');
-        Route::post('multi_delete_sub_categories','SubCategoryController@multiDelete')->name('sub_categories.multiDelete');
-
-        ################################### sliders ##########################################
-        Route::resource('sliders','SliderController');
-        Route::post('multi_delete_sliders','SliderController@multiDelete')->name('sliders.multiDelete');
 
         ################################### contacts ##########################################
         Route::resource('contacts','ContactController');
@@ -77,62 +64,21 @@ Route::group(['prefix' => 'admin'], function () {
         ################################### questions ##########################################
         Route::resource('questions','QuestionController');
 
-        ################################### products ##########################################
-        Route::resource('products','ProductController');
-        Route::get('get_market_categories','ProductController@get_market_categories')->name('get_market_categories');
-        Route::get('get_market_sub_categories','ProductController@get_market_sub_categories')->name('get_market_sub_categories');
-        Route::post('multi_delete_products','ProductController@multiDelete')->name('products.multiDelete');
 
-        ################################### Coupon ##########################################
-        Route::resource('coupons','CouponController');
-        Route::post('multi_delete_coupons','CouponController@multiDelete')->name('coupons.multiDelete');
-
-        ################################### Addition ##########################################
-        Route::resource('additions','AdditionController');
-        Route::post('multi_delete_additions','AdditionController@multiDelete')->name('additions.multiDelete');
-
-        ################################### addition_categories ##########################################
-        Route::resource('addition_categories','AdditionCategoryController');
-        Route::post('multi_delete_addition_categories','AdditionCategoryController@multiDelete')->name('addition_categories.multiDelete');
-
-        ################################### orders ##########################################
-        Route::resource('orders','OrderController');
-        Route::get('change_order_status/{id}','OrderController@change_order_status')->name('change_order_status');
-        Route::post('update_order_status','OrderController@update_order_status')->name('update_order_status');
-        Route::get('order_details/{id}','OrderController@order_details')->name('order_details');
-        Route::post('multi_delete_orders','OrderController@multiDelete')->name('orders.multiDelete');
-
-        ################################### supports ##########################################
-        Route::resource('supports','SupportController');
-        Route::get('support_details/{id}','SupportController@support_details')->name('support_details');
-        Route::post('multi_delete_supports','SupportController@multiDelete')->name('supports.multiDelete');
-
-        ################################### notifications ##########################################
-        Route::resource('notifications','NotificationController');
-
-        ################################### chats ##########################################
-        Route::resource('chats','ChatController');
-        Route::post('send_chat','ChatController@send_chat')->name('send_chat');
-        Route::get('update_user_chat_read','ChatController@update_user_chat_read')->name('update_user_chat_read');
-
-        ################################### delivery chats ##########################################
-        Route::resource('delivery_chats','DeliveryChatController');
-        Route::post('send_delivery_chat','DeliveryChatController@send_chat')->name('send_delivery_chat');
-        Route::get('update_delivery_chat_read','DeliveryChatController@update_delivery_chat_read')->name('update_delivery_chat_read');
-
-
-//        Route::get('event_test',function (){
-//           event(new \App\Events\chat(1));
-//
-//        });
     });//end Middleware Admin
 
-    Route::get('order_copy/{id}','OrderController@order_copy')->name('order_copy');
 
 
 //    Route::fallback(function () {
 //        return redirect('admin/home');
 //    });
+
+    Route::get('/migrate', function() {
+        Artisan::call('migrate ');
+        my_toaster('migrated');
+        return 'migrated';
+    });
+
     Route::get('/clear-cache', function() {
         Artisan::call('cache:clear');
         Artisan::call('optimize:clear');

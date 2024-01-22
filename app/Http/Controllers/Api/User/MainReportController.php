@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -25,12 +26,11 @@ class MainReportController extends Controller
                 return apiResponse(null, $validator->errors()->first(), '400');
             }
             $data = $request->all();
-            $user = user_api();
 
             $reported_at = date('Y-m-d H:i:s', time());
             MainReport::create([
                 'reported_at' => $reported_at,
-                'student_id' => $user->id(),
+                'student_id' => user_api()->id(),
                 'type' => $data['type'],
                 'chapters' => $data['chapters'],
                 'surah' => $data['surah'],
@@ -61,8 +61,8 @@ class MainReportController extends Controller
             $data = $request->all();
             $user = user_api();
 
-            // finding by ID alone is enough to get the record, 
-            // but student_id is added for validation, to make sure the authenticated student 
+            // finding by ID alone is enough to get the record,
+            // but student_id is added for validation, to make sure the authenticated student
             // is authorized to update the report
             // the teacher_id is null to prevent the student from updating the report after the teacher approves it
             MainReport::where('id', $report_id)
@@ -96,7 +96,7 @@ class MainReportController extends Controller
             ->limit($page_size)
             ->offset(($page - 1) * $page_size);
 
-            
+
             if ($report_id) {
                 $reports = $reports->where('id', $report_id);
             }
