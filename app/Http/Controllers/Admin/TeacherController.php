@@ -37,7 +37,6 @@ class TeacherController extends Controller
                     return $user->gender == 'female' ? 'انثى': 'ذكر';
                 })
                 ->editColumn('status',function ($user){
-//                    $block =in_array(10,admin()->user()->permission_ids)? "block" : " ";
                     $color ="danger";
                     $color2 ="success";
                     $text = "حظر";
