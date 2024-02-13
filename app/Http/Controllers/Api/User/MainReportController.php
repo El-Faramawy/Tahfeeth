@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -23,21 +22,16 @@ class MainReportController extends Controller
             // TODO: add validation messages
 
             if ($validator->fails()) {
-                return apiResponse(null, $validator->errors()->first(), '400');
+                return apiResponse(null, $validator->errors()->first(), '422');
             }
             $data = $request->all();
 
-            $reported_at = date('Y-m-d H:i:s', time());
-            MainReport::create([
-                'reported_at' => $reported_at,
-                'student_id' => user_api()->id(),
-                'type' => $data['type'],
-                'chapters' => $data['chapters'],
-                'surah' => $data['surah'],
-                'pages' => $data['pages'],
-            ]);
+            $data['reported_at'] = date('Y-m-d H:i:s', time());
+            $data['student_id'] = user_api()->id();
 
-            return apiResponse(null, 'تم إنشاء التقرير بنجاح');
+            $report = MainReport::create($data);
+
+            return apiResponse($report, 'تم إنشاء التقرير بنجاح');
         } catch (\Exception $ex) {
             return apiResponse($ex->getCode(), $ex->getMessage(), '500');
         }

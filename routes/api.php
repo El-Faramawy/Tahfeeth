@@ -27,6 +27,7 @@ Route::post('contact_us','ContactController@contact_us');
 Route::get('faqs','FaqController@faqs');
 
 Route::post('teacher', 'TeacherController@createTeacher');
+Route::get('teacher', 'TeacherController@teacher');
 
 Route::get('sessions', 'SessionController@sessions');
 

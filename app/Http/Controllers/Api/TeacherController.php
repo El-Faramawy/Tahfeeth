@@ -51,4 +51,9 @@ class TeacherController extends Controller
 
     }
 
+    public function teacher(){
+        $teachers = Teacher::all();
+        return apiResponse(['teachers'=>$teachers],'done');
+    }
+
 }
