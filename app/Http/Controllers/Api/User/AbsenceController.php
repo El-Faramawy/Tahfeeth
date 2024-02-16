@@ -14,25 +14,24 @@ class AbsenceController extends Controller
         try {
             // validation
             $validator = Validator::make($request->all(), [
-                'date' => 'required|date',
+                'from_date' => 'required|date',
+                'to_date' => 'required|date',
                 'reason' => 'required',
             ], [
-                'date.required' => 'التاريخ مطلوب',
-                'date.date' => 'التاريخ ليس تاريخًا صالحًا',
+                'from_date.required' => 'التاريخ مطلوب',
+                'from_date.date' => 'التاريخ ليس تاريخًا صالحًا',
+                'to_date.required' => 'التاريخ مطلوب',
+                'to_date.date' => 'التاريخ ليس تاريخًا صالحًا',
                 'reason.required' => 'مطلوب سبب الغياب',
             ]);
 
             if ($validator->fails()) {
-                return apiResponse(null, $validator->errors()->first(), '400');
+                return apiResponse(null, $validator->errors()->first(), '422');
             }
             $data = $request->all();
-            $user = user_api();
+            $data['student_id'] = user_api()->id();
 
-            Absence::create([
-                'date' => $data['date'],
-                'reason' => $data['reason'],
-                'student_id' => $user->id()
-            ]);
+            Absence::create($data);
 
             return apiResponse(null, 'تم إنشاء الغياب بنجاح');
         } catch (\Exception $ex) {
@@ -47,31 +46,31 @@ class AbsenceController extends Controller
 
             $absence_id = $request->route('absence_id');
             $validator = Validator::make($request->all(), [
-                'date' => 'required|date',
+                'from_date' => 'required|date',
+                'to_date' => 'required|date',
                 'reason' => 'required',
             ], [
-                'date.required' => 'التاريخ مطلوب',
-                'date.date' => 'التاريخ ليس تاريخًا صالحًا',
+                'from_date.required' => 'التاريخ مطلوب',
+                'from_date.date' => 'التاريخ ليس تاريخًا صالحًا',
+                'to_date.required' => 'التاريخ مطلوب',
+                'to_date.date' => 'التاريخ ليس تاريخًا صالحًا',
                 'reason.required' => 'مطلوب سبب الغياب',
             ]);
 
             if ($validator->fails()) {
-                return apiResponse(null, $validator->errors()->first(), '400');
+                return apiResponse(null, $validator->errors()->first(), '422');
             }
             $data = $request->all();
             $user = user_api();
 
-            // finding by ID alone is enough to get the record, 
-            // but student_id is added for validation, to make sure the authenticated student 
+            // finding by ID alone is enough to get the record,
+            // but student_id is added for validation, to make sure the authenticated student
             // is authorized to update the absence
             // the updated_by is null to prevent the student from updating the absence after the teacher accepts/rejects it
             Absence::where('id', $absence_id)
                 ->where('student_id', $user->id())
                 ->where('updated_by', null)
-                ->update([
-                    'date' => $data['date'],
-                    'reason' => $data['reason'],
-                ]);
+                ->update($data);
 
             return apiResponse(null, 'تم بنجاح');
         } catch (\Exception $ex) {

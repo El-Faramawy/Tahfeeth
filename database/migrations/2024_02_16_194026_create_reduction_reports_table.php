@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable("absences")) {
+        if (Schema::hasTable("reduction_reports")) {
             return;
         }
-        Schema::create('absences', function (Blueprint $table) {
+        Schema::create('reduction_reports', function (Blueprint $table) {
             $table->id();
             $table->date('from_date');
             $table->date('to_date');
@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('users');
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->foreign('updated_by')->references('id')->on('admins');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absences');
+        Schema::dropIfExists('reduction_reports');
     }
 };

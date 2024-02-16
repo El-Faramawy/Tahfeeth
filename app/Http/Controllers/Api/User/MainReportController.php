@@ -14,21 +14,32 @@ class MainReportController extends Controller
         try {
             // validation
             $validator = Validator::make($request->all(), [
-                'chapters' => 'required',
-                'surah' => 'required',
-                'pages' => 'required',
+                'reported_at' => 'required',
+                'day' => 'required',
+//                'chapters' => 'required',
+//                'surah' => 'required',
+//                'pages' => 'required',
                 'type' => 'required|in:periodic,daily,repeated,intense',
+                'teacher_id' => 'exists:teachers,id',
             ]);
             // TODO: add validation messages
 
             if ($validator->fails()) {
                 return apiResponse(null, $validator->errors()->first(), '422');
             }
+//            // validation if user added report with same type in this day
+//            $date = date('Y-m-d', strtotime($request->reported_at));
+//            $reportCount = MainReport::whereDate('reported_at', $date)->where([
+//                'student_id' => user_api()->id(),
+//                'type' => $request->type,
+//            ])->count();
+//            if ($reportCount > 0){
+//                return apiResponse(null, 'تم اضافة تقرير فى هذا اليوم مسبقا', '422');
+//            }
+
             $data = $request->all();
-
-            $data['reported_at'] = date('Y-m-d H:i:s', time());
+            $data['reported_at'] = $request->reported_at ?? date('Y-m-d H:i:s', time());
             $data['student_id'] = user_api()->id();
-
             $report = MainReport::create($data);
 
             return apiResponse($report, 'تم إنشاء التقرير بنجاح');
@@ -36,44 +47,44 @@ class MainReportController extends Controller
             return apiResponse($ex->getCode(), $ex->getMessage(), '500');
         }
     }
-
-    public function update_report(Request $request)
-    {
-        try {
-
-            $report_id = $request->route('report_id');
-            $validator = Validator::make($request->all(), [
-                'chapters' => 'required',
-                'surah' => 'required',
-                'pages' => 'required',
-                'type' => 'required|in:periodic,daily,repeated,intense',
-            ]);
-
-            if ($validator->fails()) {
-                return apiResponse(null, $validator->errors()->first(), '400');
-            }
-            $data = $request->all();
-            $user = user_api();
-
-            // finding by ID alone is enough to get the record,
-            // but student_id is added for validation, to make sure the authenticated student
-            // is authorized to update the report
-            // the teacher_id is null to prevent the student from updating the report after the teacher approves it
-            MainReport::where('id', $report_id)
-                ->where('student_id', $user->id())
-                ->where('teacher_id', null)
-                ->update([
-                    'type' => $data['type'],
-                    'chapters' => $data['chapters'],
-                    'surah' => $data['surah'],
-                    'pages' => $data['pages'],
-                ]);
-
-            return apiResponse(null, 'تم بنجاح');
-        } catch (\Exception $ex) {
-            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
-        }
-    }
+//
+//    public function update_report(Request $request)
+//    {
+//        try {
+//
+//            $report_id = $request->route('report_id');
+//            $validator = Validator::make($request->all(), [
+////                'chapters' => 'required',
+//                'surah' => 'required',
+//                'pages' => 'required',
+//                'type' => 'required|in:periodic,daily,repeated,intense',
+//            ]);
+//
+//            if ($validator->fails()) {
+//                return apiResponse(null, $validator->errors()->first(), '400');
+//            }
+//            $data = $request->all();
+//            $user = user_api();
+//
+//            // finding by ID alone is enough to get the record,
+//            // but student_id is added for validation, to make sure the authenticated student
+//            // is authorized to update the report
+//            // the teacher_id is null to prevent the student from updating the report after the teacher approves it
+//            MainReport::where('id', $report_id)
+//                ->where('student_id', $user->id())
+//                ->where('teacher_id', null)
+//                ->update([
+//                    'type' => $data['type'],
+//                    'chapters' => $data['chapters'],
+//                    'surah' => $data['surah'],
+//                    'pages' => $data['pages'],
+//                ]);
+//
+//            return apiResponse(null, 'تم بنجاح');
+//        } catch (\Exception $ex) {
+//            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
+//        }
+//    }
 
     public function list_reports(Request $request)
     {

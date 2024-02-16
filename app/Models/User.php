@@ -42,6 +42,9 @@ class User extends Authenticatable implements JWTSubject
     public function tests(){
         return $this->hasMany(Test::class);
     }
+    public function group(){
+        return $this->belongsTo(Group::class);
+    }
 
     public function getHasTestAttribute(){
         $test_count = $this->tests()->count();
