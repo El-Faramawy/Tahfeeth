@@ -11,20 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable("change_save_amounts")) {
+        if (Schema::hasTable("user_notes")) {
             return;
         }
-        Schema::create('change_save_amounts', function (Blueprint $table) {
+        Schema::create('user_notes', function (Blueprint $table) {
             $table->id();
-            $table->string('amount')->nullable();
-            $table->string('reason',500)->nullable();
-            $table->string('status')->default('pending');
+            $table->string('note',500)->nullable();
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('users');
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->foreign('updated_by')->references('id')->on('admins');
+            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->unsignedBigInteger('lesson_subject_id')->nullable();
+            $table->foreign('lesson_subject_id')->references('id')->on('lesson_subjects');
             $table->timestamps();
-//            $table->softDeletes();
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('change_save_amounts');
+        Schema::dropIfExists('user_notes');
     }
 };

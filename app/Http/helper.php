@@ -1,9 +1,31 @@
 <?php
+use App\Models\Setting;
+use App\Models\Absence;
+use App\Models\ChangeSaveAmount;
+use App\Models\ReductionReport;
 
 if (!function_exists('setting')) {
     function setting()
     {
-        return \App\Models\Setting::first();
+        return Setting::first();
+    }
+}
+if (!function_exists('PendingAbsenceNo')) {
+    function PendingAbsenceNo()
+    {
+        return Absence::where('status','pending')->count();
+    }
+}
+if (!function_exists('PendingReductionReportNo')) {
+    function PendingReductionReportNo()
+    {
+        return ReductionReport::where('status','pending')->count();
+    }
+}
+if (!function_exists('PendingChangeSaveAmountNo')) {
+    function PendingChangeSaveAmountNo()
+    {
+        return ChangeSaveAmount::where('status','pending')->count();
     }
 }
 // ============================================================
@@ -30,6 +52,13 @@ if (!function_exists('get_file')) {
         else
             return asset('Admin/imgs/default.jpg');
 
+    }
+}
+// ============================================================
+if (!function_exists('dashboard_file')) {
+    function dashboard_file($file)
+    {
+        return !is_null($file) ? asset($file) : null;
     }
 }
 // ============================================================

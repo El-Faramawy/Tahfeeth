@@ -31,6 +31,10 @@ Route::get('teacher', 'TeacherController@teacher');
 
 Route::get('sessions', 'SessionController@sessions');
 
+Route::get('lessons', 'LessonController@lessons');
+
+Route::post('support', 'SupportController@support');
+
 
  require __DIR__ . '/Api/user_api.php';
 

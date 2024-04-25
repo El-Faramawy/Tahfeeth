@@ -37,6 +37,8 @@
                                 <th class="text-white">المسار</th>
                                 <th class="text-white">المجموعة</th>
                                 <th class="text-white">المرحلة</th>
+                                <th class="text-white"> الملاحظات</th>
+                                <th class="text-white"> التقارير</th>
                                 <th class="text-white"> الحالة</th>
                                 <th class="text-white">تحكم</th>
                             </tr>
@@ -97,7 +99,8 @@
             {data: 'track', name: 'track'},
             {data: 'group', name: 'group'},
             {data: 'stage', name: 'stage'},
-            // {data: 'orders', name: 'orders'},
+            {data: 'user_notes', name: 'user_notes'},
+            {data: 'reports', name: 'reports'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];

@@ -18,9 +18,9 @@
             serverSide: true,
             ajax: window.location.href,
             columns: columns,
-            order: [
-                [0, "desc"]
-            ],
+            // order: [
+            //     [0, "desc"]
+            // ],
             "language": {
                 paginate: {
                     previous: "<i class='simple-icon-arrow-left'></i>",

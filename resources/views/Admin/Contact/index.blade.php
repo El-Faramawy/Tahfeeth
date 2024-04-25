@@ -7,18 +7,18 @@
                 <div class="card-header">
                     <h3 class="card-title">تواصل معنا</h3>
                     <div class="mr-auto pageheader-btn">
-                        @if(in_array(21,admin()->user()->permission_ids))
+{{--                        @if(in_array(21,admin()->user()->permission_ids))--}}
                             <a href="#"  id="multiDeleteBtn" class="btn btn-danger btn-icon text-white">
                                             <span>
                                                 <i class="fa fa-trash-o"></i>
                                             </span> حذف المحدد
                             </a>
-                        @endif
+{{--                        @endif--}}
                     </div>
                 </div>
 
                 <div class="card-body">
-                    <div class="{{--table-responsive--}}">
+                    <div class="table-responsive">
                         <table id="exportexample" class="table table-striped table-responsive-lg  card-table table-vcenter text-nowrap mb-0 table-primary align-items-center mb-0">
                             <thead class="bg-primary text-white">
                             <tr>
@@ -113,72 +113,72 @@
     @include('layouts.admin.inc.ajax',['url'=>'contacts'])
 
 
-    <script>
-        $(document).on('click', '.replayBtn', function (e) {
-            e.preventDefault()
-            $('#Modal').modal('show')
-            var url = $(this).attr('href')
-            setTimeout(function (){
-                $('#form-load').load(url)
-            },100)
-        });
+{{--    <script>--}}
+{{--        $(document).on('click', '.replayBtn', function (e) {--}}
+{{--            e.preventDefault()--}}
+{{--            $('#Modal').modal('show')--}}
+{{--            var url = $(this).attr('href')--}}
+{{--            setTimeout(function (){--}}
+{{--                $('#form-load').load(url)--}}
+{{--            },100)--}}
+{{--        });--}}
 
-        $(document).on('click',".status_submit",function (e) {
-            e.preventDefault();
-            var id = $('#order_id').val()
-            var status = $(this).attr('status')
+{{--        $(document).on('click',".status_submit",function (e) {--}}
+{{--            e.preventDefault();--}}
+{{--            var id = $('#order_id').val()--}}
+{{--            var status = $(this).attr('status')--}}
 
-            var url = "{{route('update_order_status')}}?id="+id+"&status="+status;
-            $.ajax({
-                url: url,
-                type: 'POST',
-                beforeSend: function () {
-                    $('#global-loader').show()
-                },
-                success: function (data) {
+{{--            var url = "{{route('update_order_status')}}?id="+id+"&status="+status;--}}
+{{--            $.ajax({--}}
+{{--                url: url,--}}
+{{--                type: 'POST',--}}
+{{--                beforeSend: function () {--}}
+{{--                    $('#global-loader').show()--}}
+{{--                },--}}
+{{--                success: function (data) {--}}
 
-                    window.setTimeout(function () {
-                        $('#global-loader').hide()
-                        if (data.success === 'true') {
-                            // alert(1)
-                            $('#Modal').modal('hide')
-                            my_toaster(data.message)
-                            $('#exportexample').DataTable().ajax.reload(null, false);
-                        }
-                    }, 100);
+{{--                    window.setTimeout(function () {--}}
+{{--                        $('#global-loader').hide()--}}
+{{--                        if (data.success === 'true') {--}}
+{{--                            // alert(1)--}}
+{{--                            $('#Modal').modal('hide')--}}
+{{--                            my_toaster(data.message)--}}
+{{--                            $('#exportexample').DataTable().ajax.reload(null, false);--}}
+{{--                        }--}}
+{{--                    }, 100);--}}
 
-                },
-                error: function (data) {
-                    $('#global-loader').hide()
-                    console.log(data)
-                    if (data.status === 500) {
-                        my_toaster('هناك خطأ ما','error')
-                    }
+{{--                },--}}
+{{--                error: function (data) {--}}
+{{--                    $('#global-loader').hide()--}}
+{{--                    console.log(data)--}}
+{{--                    if (data.status === 500) {--}}
+{{--                        my_toaster('هناك خطأ ما','error')--}}
+{{--                    }--}}
 
-                    if (data.status === 422) {
-                        var errors = $.parseJSON(data.responseText);
+{{--                    if (data.status === 422) {--}}
+{{--                        var errors = $.parseJSON(data.responseText);--}}
 
-                        $.each(errors, function (key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function (key, value) {
-                                    my_toaster(value,'error')
-                                });
+{{--                        $.each(errors, function (key, value) {--}}
+{{--                            if ($.isPlainObject(value)) {--}}
+{{--                                $.each(value, function (key, value) {--}}
+{{--                                    my_toaster(value,'error')--}}
+{{--                                });--}}
 
-                            } else {
+{{--                            } else {--}}
 
-                            }
-                        });
-                    }
-                    if (data.status == 421){
-                        my_toaster(data.message,'error')
-                    }
+{{--                            }--}}
+{{--                        });--}}
+{{--                    }--}}
+{{--                    if (data.status == 421){--}}
+{{--                        my_toaster(data.message,'error')--}}
+{{--                    }--}}
 
-                },//end error method
+{{--                },//end error method--}}
 
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        });
-    </script>
+{{--                cache: false,--}}
+{{--                contentType: false,--}}
+{{--                processData: false--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 @endpush

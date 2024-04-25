@@ -1,14 +1,12 @@
-<?php $setting =  App\Models\Setting::first(); ?>
-
 <!--APP-SIDEBAR-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
     <div class="side-header">
         <a class="header-brand1" href="{{route('home')}}">
-            <img src="{{get_file($setting->logo)}}" class="header-brand-img desktop-logo" alt="logo">
-            <img src="{{get_file($setting->logo)}}" class="header-brand-img toggle-logo" alt="logo">
-            <img src="{{get_file($setting->logo)}}" class="header-brand-img light-logo" alt="logo">
-            <img src="{{get_file($setting->logo)}}" class="header-brand-img light-logo1" alt="logo">
+            <img src="{{get_file(setting()->logo)}}" class="header-brand-img desktop-logo" alt="logo">
+            <img src="{{get_file(setting()->logo)}}" class="header-brand-img toggle-logo" alt="logo">
+            <img src="{{get_file(setting()->logo)}}" class="header-brand-img light-logo" alt="logo">
+            <img src="{{get_file(setting()->logo)}}" class="header-brand-img light-logo1" alt="logo">
         </a><!-- LOGO -->
     </div>
     <ul class="side-menu">
@@ -164,18 +162,38 @@
 {{--        @endif--}}
 
 {{--        @if(in_array(39,admin()->user()->permission_ids))--}}
-{{--            <li class="slide">--}}
-{{--                <a class="side-menu__item" href="{{route('orders.index')}}">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"--}}
-{{--                         class="side-menu__icon">--}}
-{{--                        <path d="M0 0h24v24H0V0z" fill="none"/>--}}
-{{--                        <path d="M15.55 11l2.76-5H6.16l2.37 5z" opacity=".3"/>--}}
-{{--                        <path--}}
-{{--                            d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>--}}
-{{--                    </svg>--}}
-{{--                    <span class="side-menu__label">كل الطلبات</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+        <li class="slide">
+            <a class="side-menu__item" data-toggle="slide" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
+                     class="side-menu__icon">
+                    <path d="M0 0h24v24H0V0z" fill="none"></path>
+                    <path d="M7 3h14v14H7z" opacity=".3"></path>
+                    <path
+                        d="M3 23h16v-2H3V5H1v16c0 1.1.9 2 2 2zM21 1H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 16H7V3h14v14z"></path>
+                </svg>
+                <span class="side-menu__label">التقارير</span><i class="angle fa fa-angle-left"></i>
+            </a>
+            <ul class="slide-menu">
+                <li><a class="slide-item" href="{{route('reports.index')}}"><span>كل التقارير</span></a></li>
+                <li><a class="slide-item" href="{{route('periodic_reports.index')}}"><span>تقارير العرض</span></a></li>
+                <li><a class="slide-item" href="{{route('absence.index')}}"><span>تقارير الغياب</span>
+                        @if(PendingAbsenceNo() > 0)
+                            <span class="mr-auto badge badge-danger badge-pill " style="padding: 4px 6px;font-size: x-small;">{{PendingAbsenceNo()}}</span>
+                        @endif
+                </a></li>
+                <li><a class="slide-item" href="{{route('reduction_reports.index')}}"><span>تقارير تخفيف البرنامج</span>
+                        @if(PendingReductionReportNo() > 0)
+                            <span class="mr-auto badge badge-danger badge-pill " style="padding: 4px 6px;font-size: x-small;">{{PendingReductionReportNo()}}</span>
+                        @endif
+                </a></li>
+                <li><a class="slide-item" href="{{route('change_save_amount.index')}}"><span>تقارير تغيير كمية الحفظ</span>
+                        @if(PendingChangeSaveAmountNo() > 0)
+                            <span class="mr-auto badge badge-danger badge-pill " style="padding: 4px 6px;font-size: x-small;">{{PendingChangeSaveAmountNo()}}</span>
+                        @endif
+                </a></li>
+            </ul>
+        </li>
+
 {{--        @endif--}}
 
 {{--        @if(in_array(42,admin()->user()->permission_ids))--}}
@@ -187,12 +205,7 @@
 {{--            </li>--}}
 {{--        @endif--}}
 {{--        @if(in_array(85,admin()->user()->permission_ids))--}}
-{{--            <li class="slide">--}}
-{{--                <a class="side-menu__item" href="{{route('supports.index')}}">--}}
-{{--                    <i class="fe fe-alert-circle side-menu__icon "></i>--}}
-{{--                    <span class="side-menu__label">الدعم و المساعدة</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+
 {{--        @endif--}}
 {{--        @if(in_array(87,admin()->user()->permission_ids))--}}
 {{--            <li class="slide">--}}
@@ -223,6 +236,12 @@
                     <span class="side-menu__label">تواصل معنا</span>
                 </a>
             </li>
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('supports.index')}}">
+                    <i class="fe fe-alert-circle side-menu__icon "></i>
+                    <span class="side-menu__label">الدعم الخيرى</span>
+                </a>
+            </li>
 {{--        @endif--}}
 {{--        @if(in_array(22,admin()->user()->permission_ids))--}}
             <li class="slide">
@@ -235,6 +254,18 @@
                 <a class="side-menu__item" href="{{route('sessions.index')}}">
                     <i class="fa fa-life-ring side-menu__icon"></i>
                     <span class="side-menu__label">حلقات التلاوة</span>
+                </a>
+            </li>
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('lessons.index')}}">
+                    <i class="fa fa-book side-menu__icon"></i>
+                    <span class="side-menu__label">الدروس</span>
+                </a>
+            </li>
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('lesson_subject.index')}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="side-menu__icon"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M13 4H6v16h12V9h-5z" opacity=".3"></path><path d="M20 8l-6-6H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm-2 12H6V4h7v5h5v11z"></path></svg>
+                    <span class="side-menu__label">التوصيات</span>
                 </a>
             </li>
             <li class="slide">

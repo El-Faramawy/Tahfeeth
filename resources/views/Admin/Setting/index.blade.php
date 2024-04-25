@@ -85,6 +85,62 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-6">
+                                <label>رقم الحساب</label>
+                                <div class="wd-150 mg-b-30">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-pencil tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div><!-- input-group-prepend -->
+                                        <input class="form-control numbersOnly" name="account_number" value="{{$setting->account_number}}"
+                                               placeholder="رقم الحساب ... " type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>رقم الايبان</label>
+                                <div class="wd-150 mg-b-30">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-pencil tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div><!-- input-group-prepend -->
+                                        <input class="form-control numbersOnly" name="account_iban" value="{{$setting->account_iban}}"
+                                               placeholder="رقم الايبان ... " type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>رقم الواتساب</label>
+                                <div class="wd-150 mg-b-30">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-pencil tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div><!-- input-group-prepend -->
+                                        <input class="form-control " name="account_whatsapp" value="{{$setting->account_whatsapp}}"
+                                               placeholder="رقم الواتساب ... " type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>اسم الحساب</label>
+                                <div class="wd-150 mg-b-30">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-pencil tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div><!-- input-group-prepend -->
+                                        <input class="form-control " name="account_name" value="{{$setting->account_name}}"
+                                               placeholder="اسم الحساب ... " type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 {{--                        <div class="row">--}}
 {{--                            <div class="col-12">--}}

@@ -1,14 +1,14 @@
 @extends('layouts.admin.app')
-@section('page_title') المجموعات @endsection
+@section('page_title') ملاحظات الطالب @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">المجموعات</h3>
+                    <h3 class="card-title">ملاحظات الطالب</h3>
                     <div class="mr-auto pageheader-btn">
 {{--                        @if(in_array(63,admin()->user()->permission_ids))--}}
-                            <a href="#"  id="addBtn" class="btn btn-primary btn-icon text-white">
+                            <a href="#"  id="addBtn2" class="btn btn-primary btn-icon text-white">
                                             <span>
                                                 <i class="fe fe-plus"></i>
                                             </span> اضافة جديد
@@ -30,10 +30,10 @@
                             <tr>
                                 <th class="text-white"><input type="checkbox" id="master"></th>
                                 <th class="text-white">#</th>
-                                <th class="text-white">الاسم</th>
-                                <th class="text-white">الوصف</th>
-                                <th class="text-white">المستخدمين</th>
-                                <th class="text-white">التقارير</th>
+                                <th class="text-white">التوصية</th>
+                                <th class="text-white">التفاصيل</th>
+                                <th class="text-white">المعلم</th>
+                                <th class="text-white">التاريخ</th>
                                 <th class="text-white">تحكم</th>
                             </tr>
                             </thead>
@@ -57,7 +57,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2>المجموعات</h2>
+                    <h2>ملاحظات الطالب</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" style="cursor: pointer" data-dismiss="modal" aria-label="Close">
@@ -100,15 +100,25 @@
         var  columns =[
             {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
             {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'description', name: 'description'},
-            {data: 'users', name: 'users'},
-            {data: 'reports', name: 'reports'},
+            {data: 'lesson_subject', name: 'lesson_subject'},
+            {data: 'note', name: 'note'},
+            {data: 'teacher', name: 'teacher'},
+            {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];
         //======================== addBtn =============================
 
     </script>
-    @include('layouts.admin.inc.ajax',['url'=>'groups'])
-
+    @include('layouts.admin.inc.ajax',['url'=>'user_notes'])
+    <script>
+        $(document).on('click', '#addBtn2', function (e) {
+            e.preventDefault();
+            $('#form-load').html(loader)
+            $('#Modal').modal('show')
+            var id = "{{$id}}";
+            setTimeout(function () {
+                $('#form-load').load("{{route("user_notes.create")}}?id=" + id)
+            }, 100)
+        });
+    </script>
 @endpush

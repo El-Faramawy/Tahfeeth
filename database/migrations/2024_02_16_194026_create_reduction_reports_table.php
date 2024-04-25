@@ -22,7 +22,10 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('users');
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('updated_by')->references('id')->on('admins');
             $table->timestamps();
+//            $table->softDeletes();
         });
     }
 

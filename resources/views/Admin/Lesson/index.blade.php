@@ -1,11 +1,11 @@
 @extends('layouts.admin.app')
-@section('page_title') المجموعات @endsection
+@section('page_title') الدروس @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">المجموعات</h3>
+                    <h3 class="card-title">الدروس</h3>
                     <div class="mr-auto pageheader-btn">
 {{--                        @if(in_array(63,admin()->user()->permission_ids))--}}
                             <a href="#"  id="addBtn" class="btn btn-primary btn-icon text-white">
@@ -31,9 +31,11 @@
                                 <th class="text-white"><input type="checkbox" id="master"></th>
                                 <th class="text-white">#</th>
                                 <th class="text-white">الاسم</th>
-                                <th class="text-white">الوصف</th>
-                                <th class="text-white">المستخدمين</th>
-                                <th class="text-white">التقارير</th>
+                                <th class="text-white">الرقم</th>
+                                <th class="text-white">الصورة الاولى</th>
+                                <th class="text-white">الصورة الثانية</th>
+                                <th class="text-white">الصوت</th>
+                                <th class="text-white">الفيديو</th>
                                 <th class="text-white">تحكم</th>
                             </tr>
                             </thead>
@@ -57,7 +59,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2>المجموعات</h2>
+                    <h2>الدروس</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" style="cursor: pointer" data-dismiss="modal" aria-label="Close">
@@ -101,14 +103,16 @@
             {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'description', name: 'description'},
-            {data: 'users', name: 'users'},
-            {data: 'reports', name: 'reports'},
+            {data: 'number', name: 'number'},
+            {data: 'image1', name: 'image1'},
+            {data: 'image2', name: 'image2'},
+            {data: 'voice', name: 'voice'},
+            {data: 'video', name: 'video'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];
         //======================== addBtn =============================
 
     </script>
-    @include('layouts.admin.inc.ajax',['url'=>'groups'])
+    @include('layouts.admin.inc.ajax',['url'=>'lessons'])
 
 @endpush

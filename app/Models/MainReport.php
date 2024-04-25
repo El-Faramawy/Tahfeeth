@@ -6,6 +6,39 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class MainReport
+ *
+ * @property string chapters
+ * @property string pages
+ * @property string new
+ * @property string previous
+ * @property string old
+ * @property integer current_from
+ * @property integer current_to
+ * @property integer lesson
+ * @property boolean listen
+ * @property boolean repeat
+ * @property integer amount_of_pages
+ * @property integer repeated_amount
+ * @property integer stage
+ * @property integer level
+ * @property integer surah
+ * @property string type
+ * @property integer mistakes
+ * @property integer hesitations
+ * @property integer warnings
+ * @property integer total_score
+ * @property integer max_score
+ * @property string time_taken
+ * @property string reported_at
+ * @property string day
+ *
+ * @property User student
+ * @property Teacher teacher
+ *
+ */
+
 class MainReport extends Model
 {
     use HasFactory;
@@ -17,6 +50,6 @@ class MainReport extends Model
 
     public function teacher(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Teacher::class);
     }
 }

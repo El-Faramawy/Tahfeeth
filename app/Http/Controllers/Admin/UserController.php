@@ -19,6 +19,9 @@ class UserController extends Controller
             if (isset($request->group_id)){
                 $users->where('group_id',$request->group_id);
             }
+            if (isset($request->user_id)){
+                $users->where('id',$request->user_id);
+            }
             $users->latest()->get();
 
             return Datatables::of($users)
@@ -30,17 +33,28 @@ class UserController extends Controller
                        ';
 //                    }
                 })
-//                ->addColumn('orders', function ($user) {
-//                    $order_data = '<a  class="btn btn-icon btn-bg-light btn-info btn-sm me-1 "
-//                            href="'.route("orders.index","user_id=".$user->id).'" >
-//                            <span class="svg-icon svg-icon-3">
-//                                <span class="svg-icon svg-icon-3">
-//                                    <i class="fa fa-shopping-basket "></i>
-//                                </span>
-//                            </span>
-//                            </button>';
-//                    return in_array(39,admin()->user()->permission_ids) ?$order_data :'';
-//                })
+                ->addColumn('reports', function ($user) {
+                    $report_data = '<a  class="btn btn-icon btn-bg-light btn-info btn-sm me-1 "
+                            href="'.route("reports.index","user_id=".$user->id).'" >
+                            <span class="svg-icon svg-icon-3">
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="fa fa-shopping-basket "></i>
+                                </span>
+                            </span>
+                            </button>';
+                    return /*in_array(39,admin()->user()->permission_ids) ?*/$report_data /*:''*/;
+                })
+                ->addColumn('user_notes', function ($user) {
+                    $user_notes = '<a  class="btn btn-icon btn-bg-light btn-secondary btn-sm me-1 "
+                            href="'.route("user_notes.index","user_id=".$user->id).'" >
+                            <span class="svg-icon svg-icon-3">
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="fa fa-pencil "></i>
+                                </span>
+                            </span>
+                            </button>';
+                    return /*in_array(39,admin()->user()->permission_ids) ?*/$user_notes /*:''*/;
+                })
                 ->editColumn('image',function ($user){
                     return '<img alt="image" class="img list-thumbnail border-0" style="width:100px;border-radius:10px" onclick="window.open(this.src)" src="'. $user->dashboard_image .'">';
                 })
@@ -112,6 +126,11 @@ class UserController extends Controller
                         return '<span class="badge badge-danger badge-sm d-block"> غير مفعل </span>
                         <a style="font-size: xx-large; display: inline-block!important;cursor: pointer " class="block text-center fw-3 pl-1 text-' . $color2 . '" data-value="active" data-id="' . $user->id . '" data-text="' . $text2 . '" ><i class="py-2 fw-3  fa fa-thumbs-up text-' . $color2 . '" ></i></a>';
                     }
+                })
+               ->editColumn('phone' , function ($user){
+                   return $user->phone .'<br>
+                        <a target="_blank" href="https://wa.me/'.$user->phone_code.$user->phone.'"> ارسال فى واتساب </a>';
+                    return '<input type="checkbox" class="sub_chk" data-id="'.$user->id.'">';
                 })
                ->addColumn('checkbox' , function ($user){
                     return '<input type="checkbox" class="sub_chk" data-id="'.$user->id.'">';
