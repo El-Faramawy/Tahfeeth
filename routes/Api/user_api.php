@@ -26,9 +26,14 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
         Route::post('absences', 'AbsenceController@create_absence');
         Route::get('absences', 'AbsenceController@list_absences');
         Route::put('absences/{absence_id}', 'AbsenceController@update_absence');
+        Route::put('reports/{report_id}', 'AbsenceController@update_report');
+
         Route::post('reports', 'MainReportController@create_report');
         Route::get('reports', 'MainReportController@list_reports');
-        Route::put('reports/{report_id}', 'AbsenceController@update_report');
+        Route::get('report_by_date_and_type', 'MainReportController@reportByDateAndType');
+        Route::get('report_pages', 'MainReportController@reportPages');
+        Route::post('update_report_by_date_and_type', 'MainReportController@updateReportByDateAndType');
+        Route::post('save_report', 'MainReportController@saveReport');
 
         Route::post('reduction_report', 'ReductionReportController@create_reduction_report');
         Route::get('reduction_report', 'ReductionReportController@list_reduction_report');

@@ -22,8 +22,8 @@ return new class extends Migration
             $table->jsonb('new')->nullable();
             $table->jsonb('previous')->nullable();
             $table->jsonb('old')->nullable();
-            $table->smallInteger('current_from')->nullable();
-            $table->smallInteger('current_to')->nullable();
+            $table->string('current_from')->nullable();
+            $table->string('current_to')->nullable();
             $table->smallInteger('lesson')->nullable();
             $table->tinyInteger('listen')->nullable()->default(0);
             $table->tinyInteger('repeat')->nullable()->default(0);

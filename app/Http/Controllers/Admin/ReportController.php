@@ -90,7 +90,17 @@ class ReportController extends Controller
                 })->editColumn('chapters', function ($item) {
                     return json_decode($item->chapters);
                 })->editColumn('pages', function ($item) {
-                    return json_decode($item->pages);
+                    $pages = json_decode($item->pages, true);
+                    $output = '';
+                    if ($pages) {
+                        foreach ($pages as $key=>$page) {
+                            if($key % 2 == 0 && $key != 0) {
+                                $output .= '<br>';
+                            }
+                            $output .= '<span class="badge badge-pill badge-sm badge-circle badge-success mr-1 mb-1 mt-0">' . $page . '</span>';
+                        }
+                    }
+                    return $output;
                 })->editColumn('previous', function ($item) {
                     return json_decode($item->previous);
                 })->editColumn('old', function ($item) {

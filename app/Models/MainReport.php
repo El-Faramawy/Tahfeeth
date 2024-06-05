@@ -43,6 +43,16 @@ class MainReport extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    protected $appends = ['formatted_pages'];
+
+    public function scopeStudentReportsPages($query, $studentId)
+    {
+        return $query->where('student_id', $studentId)
+            ->where('type', 'daily')
+            ->whereNotNull('pages');
+    }
+
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -51,5 +61,9 @@ class MainReport extends Model
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function getFormattedPagesAttribute(){
+        return json_decode($this->pages, true);
     }
 }

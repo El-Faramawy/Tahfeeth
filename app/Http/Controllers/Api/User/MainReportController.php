@@ -47,44 +47,65 @@ class MainReportController extends Controller
             return apiResponse($ex->getCode(), $ex->getMessage(), '500');
         }
     }
-//
-//    public function update_report(Request $request)
-//    {
-//        try {
-//
-//            $report_id = $request->route('report_id');
-//            $validator = Validator::make($request->all(), [
-////                'chapters' => 'required',
-//                'surah' => 'required',
-//                'pages' => 'required',
-//                'type' => 'required|in:periodic,daily,repeated,intense',
-//            ]);
-//
-//            if ($validator->fails()) {
-//                return apiResponse(null, $validator->errors()->first(), '400');
-//            }
-//            $data = $request->all();
-//            $user = user_api();
-//
-//            // finding by ID alone is enough to get the record,
-//            // but student_id is added for validation, to make sure the authenticated student
-//            // is authorized to update the report
-//            // the teacher_id is null to prevent the student from updating the report after the teacher approves it
-//            MainReport::where('id', $report_id)
-//                ->where('student_id', $user->id())
-//                ->where('teacher_id', null)
-//                ->update([
-//                    'type' => $data['type'],
-//                    'chapters' => $data['chapters'],
-//                    'surah' => $data['surah'],
-//                    'pages' => $data['pages'],
-//                ]);
-//
-//            return apiResponse(null, 'تم بنجاح');
-//        } catch (\Exception $ex) {
-//            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
-//        }
-//    }
+
+    public function updateReportByDateAndType(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'reported_at' => 'required',
+                'type' => 'required|in:periodic,daily,repeated,intense',
+            ]);
+
+            if ($validator->fails()) {
+                return apiResponse(null, $validator->errors()->first(), '400');
+            }
+            $data = $request->all();
+
+            $report = MainReport::whereDate('reported_at', date('Y-m-d', strtotime($request->reported_at)))
+                ->where([
+                    'student_id' => user_api()->id(),
+                    'type' => $request->type
+                ])->first();
+            if (!$report) {
+                return apiResponse(null, 'لا يوجد تقرير بهذه البيانات', '400');
+            }
+            $report->update($data);
+
+            return apiResponse(null, 'تم بنجاح');
+        } catch (\Exception $ex) {
+            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
+        }
+    }
+
+    public function saveReport(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'reported_at' => 'required',
+                'type' => 'required|in:periodic,daily,repeated,intense',
+            ]);
+
+            if ($validator->fails()) {
+                return apiResponse(null, $validator->errors()->first(), '400');
+            }
+
+
+            $report = MainReport::whereDate('reported_at', date('Y-m-d', strtotime($request->reported_at)))
+                ->where([
+                    'student_id' => user_api()->id(),
+                    'type' => $request->type
+                ])->first();
+
+            if ($report) {
+                return $this->updateReportByDateAndType($request);
+            }else{
+                return $this->create_report($request);
+            }
+
+        } catch (\Exception $ex) {
+            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
+        }
+    }
 
     public function list_reports(Request $request)
     {
@@ -98,8 +119,8 @@ class MainReportController extends Controller
             $sort_direction = $request->query('sort_direction', 'desc');
 
             $reports = MainReport::where('student_id', $user_id)
-            ->limit($page_size)
-            ->offset(($page - 1) * $page_size);
+                ->limit($page_size)
+                ->offset(($page - 1) * $page_size);
 
 
             if ($report_id) {
@@ -108,6 +129,36 @@ class MainReportController extends Controller
             $reports = $reports->orderBy($sort_by, $sort_direction)->get();
 
             return apiResponse($reports, null, 200);
+        } catch (\Exception $ex) {
+            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
+        }
+    }
+
+    public function reportByDateAndType(Request $request)
+    {
+        try {
+            $report = MainReport::whereDate('reported_at', $request->date)
+                ->where([
+                    'student_id' => user_api()->id(),
+                    'type' => $request->type
+                ])->first();
+            return apiResponse($report);
+        } catch (\Exception $ex) {
+            return apiResponse($ex->getCode(), $ex->getMessage(), '500');
+        }
+    }
+
+    public function reportPages(Request $request)
+    {
+        try {
+            $studentId = user_api()->id();
+            $reports = MainReport::studentReportsPages($studentId)->get();
+
+            $reportPages = $reports->map(function ($report) {
+                return $report->formatted_pages;
+            })->flatten()->unique()->values()->toArray();
+
+            return apiResponse($reportPages);
         } catch (\Exception $ex) {
             return apiResponse($ex->getCode(), $ex->getMessage(), '500');
         }

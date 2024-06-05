@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\PhotoTrait;
+use App\Models\MainReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,8 @@ class AuthController extends Controller
     use PhotoTrait;
     //===========================================
     public function profile(Request $request){
-        $user = User::where('id',user_api()->user()->id)->first();
+        $user = User::with('group.teachers')->where('id',user_api()->user()->id)->first();
+        $user->last_report = MainReport::where('type','daily')->latest()->first();
 //        $user->token = getToken();
         return apiResponse(['user'=>$user/*,'token'=>getToken()*/]);
     }
